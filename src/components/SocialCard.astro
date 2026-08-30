@@ -1,0 +1,80 @@
+---
+interface Props {
+    href: string;
+    label: string;
+    accent: string;
+}
+
+const { href, label, accent } = Astro.props;
+---
+
+<a class="social-card" href={href} target="_blank" rel="noopener noreferrer" style={`--accent: ${accent}`}>
+    <span class="icon"><slot/></span>
+    <span class="label">{label}</span>
+</a>
+
+<!-- I like smooth corners, what can I say. -->
+<script>
+    import { generateClipPath, observeResize } from "@lisse/core";
+
+    document.addEventListener("astro:page-load", () => {
+        const cards = document.querySelectorAll<HTMLElement>(".social-card");
+        cards.forEach((card) => {
+            observeResize(card, () => {
+                const { width, height } = card.getBoundingClientRect();
+                card.style.clipPath = generateClipPath(width, height, { radius: 16 });
+            });
+        });
+    });
+</script>
+
+
+<style>
+    .social-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 16px;
+        background: var(--background-secondary);
+        color: var(--text);
+        text-decoration: none;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .social-card:hover {
+        color: #ffffff;
+        background-color: var(--accent);
+        text-decoration: none;
+    }
+
+    .social-card:hover .icon {
+        color: #ffffff;
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        color: var(--text);
+        transition: color 0.2s ease;
+    }
+    
+    .icon :global(svg) {
+        width: 100%;
+        height: 100%;
+    }
+
+    .icon :global(svg),
+    .icon :global(svg *) {
+        fill: currentColor;
+    }
+
+    .label {
+        font-size: 14px;
+        font-weight: 500;
+    }
+</style>

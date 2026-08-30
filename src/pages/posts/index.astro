@@ -1,0 +1,64 @@
+---
+import Content from '../../layouts/Content.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Content title="My Posts" description="My writeups, thoughts, and more.">
+    <h1>Posts</h1>
+    <p>My writeups, thoughts, and more.</p>
+    <hr>
+    <ul class="post-list">
+        { posts.map((post) => ( 
+            <li>
+                 <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+                 <p>{post.data.description}</p>
+                 <p>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</p>
+            </li>
+        ))}
+    </ul>
+</Content>
+
+<style>
+.post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.post-list li {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--separator);
+}
+
+.post-list li:first-child {
+    padding-top: 0;
+}
+
+.post-list li:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.post-list a {
+    display: block;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.20s ease;
+}
+
+.post-list a:hover {
+    color: var(--link);
+}
+
+.post-list p {
+    margin: 6px 0 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+</style>

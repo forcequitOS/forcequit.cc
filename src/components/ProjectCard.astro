@@ -1,0 +1,94 @@
+---
+interface Props {
+    name: string;
+    description: string | null;
+    html_url: string;
+    stargazers_count: number;
+    language: string | null;
+    owner: { login: string; avatar_url: string };
+}
+
+const { name, description, html_url, stargazers_count, language, owner } = Astro.props;
+
+const stars = stargazers_count > 1000
+    ? `${(stargazers_count / 1000).toFixed(1)}k`
+    : stargazers_count;
+---
+
+<a class="project-card" href={html_url} target="_blank" rel="noopener noreferrer">
+    <div class="project-header">
+        <img src={owner.avatar_url} alt={owner.login} width="24" height="24"/>
+        <span>{owner.login} / <strong>{name}</strong></span>
+    </div>
+    {description && <p class="project-description">{description}</p>}
+    <div class="project-info">
+        {language && <span class="project-language">{language}</span>}
+        <span class="project-stars">★ {stargazers_count}</span>
+    </div>
+</a>
+
+<!-- I still like smooth corners, what can I say. -->
+<script>
+    import { generateClipPath, observeResize } from "@lisse/core";
+
+    document.addEventListener("astro:page-load", () => {
+        const cards = document.querySelectorAll<HTMLElement>(".project-card");
+        cards.forEach((card) => {
+            observeResize(card, () => {
+                const { width, height } = card.getBoundingClientRect();
+                card.style.clipPath = generateClipPath(width, height, { radius: 16 });
+            });
+        });
+    });
+</script>
+
+<style>
+    .project-card {
+        display: block;
+        padding: 16px;
+        background: var(--background-secondary);
+        color: var(--text);
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+
+    .project-card:hover {
+        background: var(--background-tertiary);
+    }
+
+    .project-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .project-header span {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    .project-header img {
+        border-radius: 50%;
+    }
+
+    .project-description {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin: 0 0 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .project-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--text-tertiary);
+    }
+</style>

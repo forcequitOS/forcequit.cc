@@ -1,17 +1,53 @@
 ---
+import Content from '../layouts/Content.astro';
+import SocialCard from '../components/SocialCard.astro';
+import Projects from '../components/Projects.astro';
 
+// Maybe the most scuffed way of importing SVGs
+import envelope from '../static/envelope.svg?raw';
+import discord from '../static/discord.svg?raw';
+import github from '../static/github.svg?raw';
+import x from '../static/x.svg?raw';
+import youtube from '../static/youtube.svg?raw';
+import reddit from '../static/reddit.svg?raw';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Content title="My Site" description="Hey, I'm forcequit. Developer and researcher, find my socials and projects here.">
+	<h1>Hey, I'm forcequit.</h1>
+	<p>I'm a developer and researcher, focusing on Apple's platforms.</p>
+	<hr/>
+	<h3>My Socials</h3>
+	<p>Where to find me online. You can best contact me via email or Discord.</p>
+	<div class="social-grid">
+		<SocialCard href="mailto:hey@forcequit.cc" label="hey@forcequit.cc" accent="var(--blue)">
+			<Fragment set:html={envelope}/>
+		</SocialCard>
+		<SocialCard href="https://discord.com/users/663444424155463682" label="@forcequit." accent="#5865f2">
+			<Fragment set:html={discord}/>
+		</SocialCard>
+		<SocialCard href="https://github.com/forcequitOS" label="forcequitOS" accent="#2a2f35">
+			<Fragment set:html={github}/>
+		</SocialCard>
+		<SocialCard href="https://x.com/forcequitOS" label="@forcequitOS" accent="#000000">
+			<Fragment set:html={x}/>
+		</SocialCard>
+		<SocialCard href="https://youtube.com/@forcequitOS" label="@forcequitOS" accent="#ff0033">
+			<Fragment set:html={youtube}/>
+		</SocialCard>
+		<SocialCard href="https://reddit.com/user/CtrliPhones" label="/u/CtrliPhones" accent="#ff4500">
+			<Fragment set:html={reddit}/>
+		</SocialCard>
+	</div>
+	<hr/>
+	<h3>My Projects</h3>
+	<p>Some of the nicer projects I've worked on.</p>
+	<Projects/>
+</Content>
+
+<style>
+	.social-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 12px;
+	}
+</style>

@@ -1,0 +1,237 @@
+/* Light color scheme */
+:root {
+    --red: #ff383c;
+    --orange: #ff8d28;
+    --yellow: #ffcc00;
+    --green: #34c759;
+    --mint: #00c8b3;
+    --teal: #00c3d0;
+    --cyan: #00c0e8;
+    --blue: #0088ff;
+    --indigo: #6155f5;
+    --purple: #cb30e0;
+    --pink: #ff2d55;
+    --brown: #ac7f5e;
+    --gray: #8e8e93;
+
+    --background: #ffffff;
+    --background-secondary: #f7f7f7;
+    --background-tertiary: #f2f2f2;
+
+    --separator: rgba(0, 0, 0, 0.10);
+    --text: rgba(0, 0, 0, 0.85);
+    --text-secondary: rgba(0, 0, 0, 0.55);
+    --text-tertiary: rgba(0, 0, 0, 0.25);
+    --text-quaternary: rgba(0, 0, 0, 0.10);
+
+    --link: #0068da;
+}
+
+/* Dark color scheme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --red: #ff4245;
+        --orange: #ff9230;
+        --yellow: #ffd600;
+        --green: #30d158;
+        --mint: #00dac3;
+        --teal: #00d2e0;
+        --cyan: #3cd3fe;
+        --blue: #0091ff;
+        --indigo: #6d7cff;
+        --purple: #db34f2;
+        --pink: #ff375f;
+        --brown: #b78a66;
+        --gray: #98989d;
+
+        --background: #1e1e1e;
+        --background-secondary: #252528;
+        --background-tertiary: #252628;
+
+        --separator: rgba(255, 255, 255, 0.10);
+        --text: rgba(255, 255, 255, 0.85);
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.25);
+        --text-quaternary: rgba(255, 255, 255, 0.10);
+
+        --link: #419cff;
+    }
+}
+
+/* Styles */
+body {
+    padding: 50px 20px;
+    margin: 0 auto;
+    background-color: var(--background);
+    color: var(--text);
+    font-family: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, system-ui, ui-sans-serif, 'SF Pro', Roboto, 'Fira Sans', Oxygen, Ubuntu, 'Segoe UI', 'Helvetica Neue', 'Noto Sans', Arial, sans-serif;
+}
+
+h1 {
+    font-weight: 700;
+}
+
+h2, h3 {
+    font-weight: 600;
+}
+
+a {
+    color: var(--link);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img, svg {
+    max-width: 100%;
+    display: block;
+}
+
+hr {
+    border: solid 1px var(--separator);
+    margin: 16px 0;
+}
+
+
+/* Color classes */
+.red {
+    color: var(--red);
+}
+
+.orange {
+    color: var(--orange);
+}
+
+.yellow {
+    color: var(--yellow);
+}
+
+.green {
+    color: var(--green);
+}
+
+.mint {
+    color: var(--mint);
+}
+
+.teal {
+    color: var(--teal);
+}
+
+.blue {
+    color: var(--blue);
+}
+
+.indigo {
+    color: var(--indigo);
+}
+
+.purple {
+    color: var(--purple);
+}
+
+.pink {
+    color: var(--pink);
+}
+
+.brown {
+    color: var(--brown);
+}
+
+.gray {
+    color: var(--gray);
+}
+
+/* Transitions (thanks Claude!) */
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(fade-up) {
+        animation: fade-out 0.25s ease forwards;
+    }
+    ::view-transition-new(fade-up) {
+        animation: fade-up-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+@keyframes fade-up-in {
+    from { opacity: 0; transform: translateY(1rem); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Post Styles */
+/* Some of these are Clauded (*cough* tables *cough*) since I didn't really care. */
+html {
+    scroll-padding-top: 72px;
+}
+
+.post img {
+    border-radius: 8px;
+}
+
+.post table {
+    width: 100%;
+    border-collapse: separate;
+}
+
+.post th, .post td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--separator);
+    text-align: left;
+}
+
+.post th {
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 2px solid var(--separator);
+}
+
+.post tr:last-child td {
+    border-bottom: none;
+}
+
+.post :not(pre) > code {
+    font-family: var(--font-azaret-mono);
+    background: var(--background-secondary);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.post mark {
+    background: color-mix(in srgb, var(--yellow) 35%, transparent);
+    color: var(--text);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.post blockquote {
+    margin: 20px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--separator);
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.post :is(h1, h2, h3, h4, h5, h6) a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.post .expressive-code {
+    margin: 20px 0;
+}
+
+.post .table-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 2px solid var(--separator);
+    border-radius: 8px;
+}
+
+.post .table-wrap table {
+    margin: 0;
+}

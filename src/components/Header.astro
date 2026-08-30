@@ -1,0 +1,111 @@
+---
+const navigationItems = [
+    { href: "/posts", label: "Posts" }
+];
+
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="icon" href="/" aria-label="Home">⌘</a>
+        <nav aria-label="Tabs">
+            {
+                navigationItems.map((item) => (
+                    <a class="nav-link" href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+                        {item.label}
+                    </a>
+                ))
+            }
+        </nav>
+    </div>
+</header>
+
+<!-- Show header divider when scrolling -->
+<!-- This solution is a little bit scuffed, but it works really well. -->
+<div class="scroll-sentinel"></div>
+<script>
+    let observer: IntersectionObserver | undefined;
+
+    document.addEventListener("astro:page-load", () => {
+        observer?.disconnect();
+
+        const header = document.querySelector<HTMLElement>('.site-header');
+        const sentinel = document.querySelector<HTMLElement>('.scroll-sentinel');
+        const main = document.querySelector('main');
+
+        if (header && sentinel && main) {
+            const contentTop = main.getBoundingClientRect().top + window.scrollY;
+            sentinel.style.top = `${Math.max(contentTop - header.offsetHeight, 0)}px`;
+
+            observer = new IntersectionObserver(([entry]) => {
+                header.classList.toggle('scrolled', !entry.isIntersecting);
+            });
+            observer.observe(sentinel);
+        }
+    });
+</script>
+
+<style>
+    .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+        background: color-mix(in srgb, var(--background) 70%, transparent);
+        backdrop-filter: blur(5px);
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.20s ease;
+    }
+
+    .site-header.scrolled {
+        border-color: var(--separator);
+    }
+
+    .scroll-sentinel {
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .site-header-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--text);
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        color: var(--blue);
+        font-size: 36px;
+        font-weight: 400;
+        flex-shrink: 0;
+        display: inline-block;
+        text-decoration: none;
+        transition: text-shadow 0.20s ease;
+    }
+
+    .icon:hover {
+        text-shadow: 0 0 2.5px var(--blue);
+    }
+
+    nav[aria-label="Tabs"] {
+        display: flex;
+        gap: 20px;
+    }
+
+    .nav-link {
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.20s ease;
+    }
+
+    .nav-link:hover {
+        color: var(--gray);
+    }
+</style>

@@ -1,0 +1,18 @@
+---
+import Content from '../layouts/Content.astro';
+import { version } from '../../package.json';
+
+const buildDate = new Date().toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'long',
+});
+---
+
+<Content title="About This Site" description="Hello and welcome.">
+	<h1>About This Site</h1>
+	<p>Changelogs, version history, and more.</p>
+	<hr/>
+	<p>This is version <strong class="blue">{version} ({buildDate})</strong> of this site.</p>
+	<h3>Under Construction...</h3>
+	<p>Version {version} &middot; built {buildDate}</p>
+</Content>
